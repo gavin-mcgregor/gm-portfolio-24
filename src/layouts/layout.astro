@@ -1,0 +1,61 @@
+---
+import '../styles/main.scss'
+// import Header from '../components/header.astro'
+// import Footer from '../components/footer.astro'
+// import { ViewTransitions } from 'astro:transitions'
+const { title, description, page, classArray } = Astro.props
+
+const outputSitename = 'Website Name'
+
+let outputTitle = 'Website SEO Title'
+if (title) {
+	outputTitle = title
+}
+
+let outputDescription = 'Websites SEO Meta Description'
+if (description) {
+	outputDescription = description
+}
+
+let outputClasses = ''
+if (page) {
+	outputClasses += page
+	outputClasses += ' '
+}
+if (classArray) {
+	outputClasses += classArray.join(' ')
+}
+---
+
+<html lang="en">
+	<head>
+		<!-- Meta -->
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+
+		<!-- Transitions -->
+		<!-- <ViewTransitions /> -->
+
+		<!-- SEO -->
+		<title>{outputTitle}</title>
+		<meta property="og:title" content={outputTitle} />
+		<meta name="description" content={outputDescription} />
+		<meta property="og:description" content={outputDescription} />
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="en_GB" />
+		<meta property="og:site_name" content={outputSitename} />
+		<!-- <meta property="og:image" content="/images/hero.webp" /> -->
+
+		<!-- Js -->
+		<script is:inline src=""></script>
+
+		<!-- Astro -->
+	</head>
+	<body>
+		<!-- ADD Header -->
+		<slot />
+		<!-- ADD Footer -->
+	</body>
+</html>
