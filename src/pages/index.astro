@@ -1,9 +1,15 @@
 ---
 import Layout from '../layouts/layout.astro'
+import Hero from '../components/hero.astro'
+import Gallery from '../components/gallery.astro'
 ---
 
-<Layout page="home" classArray={['flex-col']} >
-	<div>
-		Homepage
-	</div>
+<Layout
+	page="home"
+	classArray={['page-container']}
+	title="Gavin McGregor"
+	description="designer and developer portfolio 2024"
+>
+	<Hero />
+	<Gallery />
 </Layout>

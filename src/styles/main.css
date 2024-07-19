@@ -1,1 +1,321 @@
-/*# sourceMappingURL=main.css.map */
+/* =================
+Global CSS
+================= */
+:root {
+  --white: #fff;
+  --black: #000;
+  --grey-300: #eee;
+  --grey-600: #333;
+  --clear: rgba(0, 0, 0, 0);
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+*:hover {
+  cursor: unset;
+}
+
+/* =================
+Typography
+================= */
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 20px;
+  scroll-behavior: smooth;
+  background-color: var(--black);
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media (max-width: 320px) {
+  html {
+    font-size: 12px;
+  }
+}
+@font-face {
+  font-family: "america";
+  src: url("/assets/fonts/GTAmericaMono.woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+body {
+  font-family: "america", Arial, Helvetica, sans-serif;
+}
+
+a,
+p,
+li,
+h1,
+h2,
+h3,
+label,
+input,
+button,
+select,
+textarea {
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.3em;
+  list-style: none;
+}
+
+.text-white {
+  color: var(--white);
+}
+
+.text-black {
+  color: var(--black);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-large {
+  font-size: 1.5rem;
+}
+
+.text-underline {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1px;
+}
+
+a {
+  color: unset;
+  text-decoration: unset;
+}
+
+button {
+  all: unset;
+}
+
+a:hover,
+button:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .text-large {
+    font-size: 1rem;
+  }
+}
+/* =================
+Media
+================= */
+img {
+  max-width: 100%;
+  line-height: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+/* =================
+Structure
+================= */
+main {
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.page-width {
+  max-width: unset;
+  width: calc(100% - 4rem);
+  margin: auto;
+}
+
+.relative {
+  position: relative;
+}
+
+.z1 {
+  z-index: 1;
+}
+
+.inline {
+  display: inline;
+}
+
+.row-top-x1 {
+  padding-top: 1rem;
+}
+
+.row-top-x2 {
+  padding-top: 2rem;
+}
+
+.row-top-x4 {
+  padding-top: 4rem;
+}
+
+.row-bottom-x1 {
+  padding-bottom: 1rem;
+}
+
+.row-bottom-x2 {
+  padding-bottom: 2rem;
+}
+
+.row-bottom-x4 {
+  padding-bottom: 4rem;
+}
+
+@media (max-width: 640px) {
+  .page-width {
+    width: calc(100% - 2rem);
+  }
+  .row-top-x1 {
+    padding-top: 0.5rem;
+  }
+  .row-top-x2 {
+    padding-top: 1rem;
+  }
+  .row-top-x4 {
+    padding-top: 2rem;
+  }
+  .row-bottom-x1 {
+    padding-bottom: 0.5rem;
+  }
+  .row-bottom-x2 {
+    padding-bottom: 1rem;
+  }
+  .row-bottom-x4 {
+    padding-bottom: 2rem;
+  }
+}
+/* =================
+Utility
+================= */
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.border-top {
+  border-top: solid 2px var(--black);
+  padding-top: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+/* =================
+Color
+================= */
+.background-white {
+  background-color: var(--white);
+}
+
+.background-black {
+  background-color: var(--black);
+}
+
+/* =================
+Style
+================= */
+.text-line {
+  padding: 2px;
+}
+
+.text-line .text-background {
+  padding: 2px;
+  background-color: var(--white);
+  color: var(--black);
+}
+
+/* =================
+Home page
+================= */
+#nav-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* =================
+404 Error
+================= */
+#error-404-section .flex-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: var(--black);
+}
+
+/* =================
+Transitions
+================= */
+/* Lazy Fade */
+#slide-section {
+  transform: translateX(0px);
+  transition: transform 1s ease-out;
+}
+
+#slide-section.offScreen {
+  transform: translateX(-100vw);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Lazy Fade */
+[data-lazy-fade=true] {
+  opacity: 0.01;
+  transition: opacity 0.5s ease-out;
+  transition-delay: 0.3s;
+}
+
+[data-lazy-fade=true].onScreen {
+  opacity: 1;
+}
+
+/* Lazy Clip */
+[data-lazy-clip=true] {
+  -webkit-clip-path: polygon(0 99%, 100% 99%, 100% 100%, 0 100%);
+          clip-path: polygon(0 99%, 100% 99%, 100% 100%, 0 100%);
+  transform: translateY(-2rem);
+}
+
+[data-lazy-clip=true].onScreen {
+  animation-name: clipAnimationIn;
+  animation-duration: 0.5s;
+  animation-delay: 0.2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes clipAnimationIn {
+  0% {
+    -webkit-clip-path: polygon(0 99%, 100% 99%, 100% 100%, 0 100%);
+            clip-path: polygon(0 99%, 100% 99%, 100% 100%, 0 100%);
+    transform: translateY(-2rem);
+  }
+  100% {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: translateY(0);
+  }
+}/*# sourceMappingURL=main.css.map */
