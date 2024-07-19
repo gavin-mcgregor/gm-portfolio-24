@@ -29,14 +29,12 @@ for (let x = 0; x < numberOfColumns; x++) {
 		</div>
 		<div class="row-top-x2 row-bottom-x2">
 			<div class="video-container">
-				<!-- <div id="vimeo-player" class="vimeo-player"></div> -->
 				<iframe
 					id="vimeo-player"
 					class="vimeo-player"
-					width="640"
-					height="360"
+					width="1920"
+					height="1080"
 					src=""
-					frameborder="0"
 					allow="autoplay; fullscreen"
 					allowfullscreen></iframe>
 			</div>
@@ -79,26 +77,22 @@ for (let x = 0; x < numberOfColumns; x++) {
 		display: block;
 	}
 	.video-container {
-		margin-top: 2rem;
 		text-align: center;
-	}
-	.vimeo-player {
-		width: 100%;
-		margin: 0 auto;
 		position: relative;
-		padding-bottom: calc(9 / 16 * 100%); /* Aspect Ratio 16:9 */
+		width: 100%;
+		padding-bottom: calc(9 / 16 * 100%); /* Aspect 16:9 */
 		height: 0;
 		overflow: hidden;
 	}
 
-	.vimeo-player * {
+	iframe {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
-		transform: translate(-50%, -50%);
 		object-fit: cover;
+		border: none;
 	}
 
 	@media (max-width: 640px) {
@@ -109,7 +103,7 @@ for (let x = 0; x < numberOfColumns; x++) {
 </style>
 
 <script>
-	import Vimeo from '@vimeo/player'
+	import Player from '@vimeo/player'
 
 	const videoArray = [
 		{
@@ -123,25 +117,20 @@ for (let x = 0; x < numberOfColumns; x++) {
 		}
 	]
 
-	// Define the Vimeo video ID from the first URL
 	const videoId = videoArray[0].url.split('/').pop()
 
 	document.addEventListener('DOMContentLoaded', () => {
 		const vimeoPlayerElement = document.getElementById('vimeo-player') as HTMLIFrameElement
 
-		// Set the iframe src to the Vimeo video URL
-		vimeoPlayerElement.src = `https://player.vimeo.com/video/${videoId}?autoplay=1`
+		if (!vimeoPlayerElement) {
+			console.error('Vimeo player element not found.')
+			return
+		}
 
-		// Initialize Vimeo Player
-		const player = new Vimeo(vimeoPlayerElement, {
-			id: videoId,
-			width: 640, // Width for the iframe
-			height: 360, // Height for the iframe
-			loop: true,
-			controls: false
-		})
+		vimeoPlayerElement.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&controls=0&loop=1`
 
-		// Example: Add event listener to play when ready
+		const player = new Player(vimeoPlayerElement)
+
 		player.on('play', function () {
 			console.log('Video is playing')
 		})
