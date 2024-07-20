@@ -10,9 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/netlify": "^5.4.0",
     "@vimeo/player": "^2.23.0",
     "astro": "^4.7.1",
-    "prettier-plugin-astro": "^0.13.0"
+    "prettier-plugin-astro": "^0.13.0",
+    "showdown": "^2.1.0"
   },
   "devDependencies": {
     "sass": "^1.76.0"
