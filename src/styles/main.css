@@ -4,8 +4,7 @@ Global CSS
 :root {
   --white: #fff;
   --black: #000;
-  --grey-300: #eee;
-  --grey-600: #333;
+  --grey: #969182;
   --clear: rgba(0, 0, 0, 0);
 }
 
@@ -100,6 +99,10 @@ textarea {
 
 .text-white {
   color: var(--white);
+}
+
+.text-grey {
+  color: var(--grey);
 }
 
 .text-black {
@@ -274,6 +277,10 @@ Style
   padding: 2px;
   background-color: var(--black);
   color: var(--white);
+}
+
+.text-line-reversed .text-grey {
+  color: var(--grey);
 }
 
 /* =================

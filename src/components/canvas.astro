@@ -1,5 +1,5 @@
 ---
-// import './CanvasAscii.css'
+
 ---
 
 <div class="canvas-container">
@@ -7,15 +7,36 @@
 	<canvas id="canvas-pixel"></canvas>
 	<div class="control-container text-white text-line-reversed">
 		<div class="row">
+			<span class="text-background"> Ascii Anim Specs</span>
+		</div>
+		<div class="row">
 			<div class="text-background">
-				<label for="rings">Num_Rings:</label>
-				<input type="number" id="rings" name="rings" min="1" max="10" value="8" step="1" />
+				<label for="rings">_Num_Rings:</label>
+				<input
+					class="editable"
+					type="number"
+					id="rings"
+					name="rings"
+					min="1"
+					max="15"
+					value="8"
+					step="1"
+				/>
 			</div>
 		</div>
 		<div class="row">
 			<div class="text-background">
-				<label for="offset">Size_Offset:</label>
-				<input type="number" id="offset" name="offset" min="0" max="1" value="0.5" step="0.1" />
+				<label for="speed">_Speed:</label>
+				<input
+					class="editable"
+					type="number"
+					id="speed"
+					name="speed"
+					min="-0.1"
+					max="0.1"
+					value="0.01"
+					step="0.01"
+				/>
 			</div>
 		</div>
 	</div>
@@ -26,15 +47,8 @@
 		let ctxMain, ctxPixel
 		let grdAngle = 0
 		let grdRotation = 0.02
+		let grdAngleOffset = 0.5
 
-		// Update Angle
-		// let grdAngle = 0.5
-		// const offsetControl = document.querySelector('input#offset')
-		// offsetControl.addEventListener('change', (e) => {
-		// 	grdAngle = e.target.value
-		// })
-
-		const grdAngleOffset = 0.5
 		const pixelScale = 20
 		const canvasSpan = 0.9
 		const density = '#▚◥❌♥♦@8²Å╱←£✓*?!~:. '
@@ -45,6 +59,8 @@
 
 		const canvasMain = document.getElementById('canvas-main')
 		const canvasPixel = document.getElementById('canvas-pixel')
+
+		let speed = 0.01
 
 		const setCanvasSize = () => {
 			const windowWidth = Math.floor(window.innerWidth * canvasSpan)
@@ -102,7 +118,7 @@
 				ctxPixel.fill()
 			}
 
-			grdAngle += 0.01
+			grdAngle += speed
 
 			ctxPixel.translate(cX, cY)
 			ctxPixel.rotate(grdRotation)
@@ -159,6 +175,11 @@
 		then = Date.now()
 		updateAnimation()
 		animateFrames()
+
+		const speedControl = document.querySelector('input#speed')
+		speedControl.addEventListener('change', (e) => {
+			speed = parseFloat(e.target.value)
+		})
 	})
 </script>
 
@@ -177,22 +198,54 @@
 	}
 
 	.control-container {
-		position: relative;
 		z-index: 2;
+		position: absolute;
+		min-width: calc(20% - 2rem);
+		right: 2rem;
+		bottom: calc(5% + 2rem);
+		display: flex;
+		flex-direction: column;
+		gap: 0.1rem;
+	}
+
+	.control-container label,
+	.control-container input,
+	.control-container span {
+		color: #969182;
+		font-size: 0.8rem;
 	}
 
 	.control-container input[type='number'] {
-		background-color: rgba(0, 0, 0, 0);
-		color: var(--white);
+		background-color: var(--black);
 		border: 0px solid;
+		border-bottom: 1px solid #969182;
+		padding: 0;
+		text-align: center;
 	}
 
-	.control-container input[type='number']::-webkit-inner-spin-button,
-	.control-container input[type='number']::-webkit-outer-spin-button {
+	.control-container .editable::-webkit-inner-spin-button,
+	.control-container .editable::-webkit-outer-spin-button {
 		opacity: 1;
+		display: none;
 	}
 
 	.control-container .text-background {
 		display: inline;
+	}
+
+	@media (max-width: 640px) {
+		#canvas-main {
+			max-width: 100%;
+		}
+
+		.control-container {
+			display: none;
+		}
+	}
+
+	@media (max-height: 350px) {
+		.control-container {
+			display: none;
+		}
 	}
 </style>
