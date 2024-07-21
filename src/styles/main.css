@@ -53,6 +53,30 @@ html {
   font-weight: 400;
   font-style: normal;
 }
+.text-america {
+  font-family: "america";
+}
+
+@font-face {
+  font-family: "auld traditional";
+  src: url("/assets/fonts/AuldTraditional.woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+.text-auld {
+  font-family: "auld traditional";
+}
+
+@font-face {
+  font-family: "c64";
+  src: url("/assets/fonts/C64Pro.woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+.text-c64 {
+  font-family: "auld tradition";
+}
+
 body {
   font-family: "america", Arial, Helvetica, sans-serif;
 }
@@ -244,6 +268,12 @@ Style
   padding: 2px;
   background-color: var(--white);
   color: var(--black);
+}
+
+.text-line-reversed .text-background {
+  padding: 2px;
+  background-color: var(--black);
+  color: var(--white);
 }
 
 /* =================

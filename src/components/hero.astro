@@ -1,12 +1,37 @@
 ---
-
+import { Image } from 'astro:assets'
+import backgroundImage from '../assets/hero/background.png'
+import Canvas from '../components/canvas.astro'
 ---
 
 <section>
 	<div class="page-width row-top-x2 row-bottom-x2">
 		<div class="title-container row-top-x2 row-bottom-x2">
 			<h1 class="hidden">Gavin McGregor, designer/developer portfolio 2024</h1>
-			<h2 class="text-white text-center">Hero Section</h2>
+			<h2 class="text-white text-center text-line-reversed">
+				<span class="text-background">Hero Section</span>
+			</h2>
+		</div>
+		<div class="background-container">
+			<Image
+				src={backgroundImage}
+				alt=""
+				widths={[640, 490, 980]}
+				sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
+				format="webp"
+				quality={80}
+				loading="eager"
+				class="gallery-image"
+			/>
+		</div>
+
+		<Canvas />
+
+		<div class="font-display-container">
+			<div class="letters text-auld">ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?!$@:;.</div>
+			<div class="caption-container text-line-reversed">
+				<span class="text-background">Custom font: Auld_Traditional</span>
+			</div>
 		</div>
 	</div>
 </section>
@@ -15,5 +40,46 @@
 	section {
 		min-height: 100vh;
 		background-color: #222;
+		position: relative;
+	}
+
+	.title-container {
+		position: relative;
+		z-index: 2;
+	}
+
+	.background-container img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.font-display-container {
+		position: absolute;
+		top: 0%;
+		right: 0;
+		width: calc(50% - 0.5rem);
+		height: 80%;
+		background-color: #969182;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.font-display-container .letters {
+		width: 80%;
+		margin: auto;
+		overflow-wrap: break-word;
+		font-size: calc(1rem + 2vw + 2vh);
+	}
+
+	.font-display-container .caption-container {
+		position: absolute;
+		right: 2rem;
+		bottom: 2rem;
+		opacity: 0.25;
 	}
 </style>

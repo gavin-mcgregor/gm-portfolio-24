@@ -63,14 +63,12 @@ for (let x = 0; x < numberOfColumns; x++) {
 	imageColumns.push(imagesArray.slice(imageIndex, imageIndex + imagesPerColumn))
 	imageIndex += imagesPerColumn
 }
-
-console.log(images)
 ---
 
 <section>
 	<div class="page-width row-top-x2 row-bottom-x2">
-		<div class="title-container row-bottom-x2">
-			<h2 class="text-white text-center">Gallery Section</h2>
+		<div class="title-container text-line-reversed row-bottom-x2">
+			<h2 class="text-white text-center"><span class="text-background">Gallery Section</span></h2>
 		</div>
 		<div class="gallery-container">
 			{

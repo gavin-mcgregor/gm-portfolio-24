@@ -1,0 +1,198 @@
+---
+// import './CanvasAscii.css'
+---
+
+<div class="canvas-container">
+	<canvas id="canvas-main"></canvas>
+	<canvas id="canvas-pixel"></canvas>
+	<div class="control-container text-white text-line-reversed">
+		<div class="row">
+			<div class="text-background">
+				<label for="rings">Num_Rings:</label>
+				<input type="number" id="rings" name="rings" min="1" max="10" value="8" step="1" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="text-background">
+				<label for="offset">Size_Offset:</label>
+				<input type="number" id="offset" name="offset" min="0" max="1" value="0.5" step="0.1" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<script is:inline>
+	document.addEventListener('DOMContentLoaded', () => {
+		let ctxMain, ctxPixel
+		let grdAngle = 0
+		let grdRotation = 0.02
+
+		// Update Angle
+		// let grdAngle = 0.5
+		// const offsetControl = document.querySelector('input#offset')
+		// offsetControl.addEventListener('change', (e) => {
+		// 	grdAngle = e.target.value
+		// })
+
+		const grdAngleOffset = 0.5
+		const pixelScale = 20
+		const canvasSpan = 0.9
+		const density = '#▚◥❌♥♦@8²Å╱←£✓*?!~:. '
+		const fps = 42
+		const interval = 1000 / fps
+		let then, now, delta
+		let pixelRatio = window.devicePixelRatio > 0 ? window.devicePixelRatio : 1
+
+		const canvasMain = document.getElementById('canvas-main')
+		const canvasPixel = document.getElementById('canvas-pixel')
+
+		const setCanvasSize = () => {
+			const windowWidth = Math.floor(window.innerWidth * canvasSpan)
+			const windowHeight = Math.floor(window.innerHeight * canvasSpan)
+			const pixelWidth = Math.ceil(window.innerWidth / pixelScale)
+			const pixelHeight = Math.ceil(window.innerHeight / pixelScale)
+
+			ctxMain = canvasMain.getContext('2d')
+			ctxMain.canvas.width = Math.floor(window.innerWidth * pixelRatio * canvasSpan)
+			ctxMain.canvas.height = Math.floor(window.innerHeight * pixelRatio * canvasSpan)
+			canvasMain.style.width = `${windowWidth}px`
+			canvasMain.style.height = `${windowHeight}px`
+
+			ctxPixel = canvasPixel.getContext('2d', { willReadFrequently: true })
+			ctxPixel.canvas.width = Math.ceil((window.innerWidth / pixelScale) * pixelRatio)
+			ctxPixel.canvas.height = Math.ceil((window.innerHeight / pixelScale) * pixelRatio)
+			canvasPixel.style.width = `${pixelWidth}px`
+			canvasPixel.style.height = `${pixelHeight}px`
+		}
+
+		const drawGrad = () => {
+			let maxRadius
+			const offSet = 1
+			if (ctxPixel.canvas.width > ctxPixel.canvas.height) {
+				maxRadius = Math.floor(ctxPixel.canvas.height / 2) - offSet
+			} else {
+				maxRadius = Math.floor(ctxPixel.canvas.width / 2) - offSet
+			}
+			const cX = Math.ceil(ctxPixel.canvas.width / 2)
+			const cY = Math.ceil(ctxPixel.canvas.height / 2) + offSet
+			ctxPixel.fillStyle = 'rgba(0, 0, 0, 1)'
+			ctxPixel.beginPath()
+			ctxPixel.arc(cX, cY, maxRadius, 0, 2 * Math.PI)
+			ctxPixel.fill()
+			ctxPixel.closePath()
+
+			const ringControl = document.querySelector('input#rings')
+			const numOfRings = ringControl.value
+			let grd,
+				ringScale = 0
+
+			for (let x = 0; x < numOfRings; x++) {
+				createRing(x, ringScale)
+				ringScale += maxRadius / numOfRings
+			}
+
+			function createRing(x, ringScale) {
+				grd = ctxPixel.createConicGradient((grdAngle + grdAngleOffset) * x, cX, cY)
+				grd.addColorStop(0.25, 'rgb(0,0,0)')
+				grd.addColorStop(1, 'rgb(125,125,125)')
+				ctxPixel.fillStyle = grd
+
+				ctxPixel.beginPath()
+				ctxPixel.arc(cX, cY, maxRadius - ringScale, 0, 2 * Math.PI)
+				ctxPixel.fill()
+			}
+
+			grdAngle += 0.01
+
+			ctxPixel.translate(cX, cY)
+			ctxPixel.rotate(grdRotation)
+			ctxPixel.translate(-cX, -cY)
+		}
+
+		const updateAnimation = () => {
+			ctxMain.fillStyle = 'rgba(0, 0, 0, 1)'
+			ctxMain.fillRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height)
+			drawGrad()
+
+			const imageData = ctxPixel.getImageData(0, 0, ctxPixel.canvas.width, ctxPixel.canvas.height)
+			const w = (ctxPixel.canvas.width / imageData.width) * pixelScale * canvasSpan
+			const h = (ctxPixel.canvas.height / imageData.height) * pixelScale * canvasSpan
+
+			for (let col = 0; col < imageData.height; col++) {
+				for (let row = 0; row < imageData.width; row++) {
+					const pixelIndex = (row + col * imageData.width) * 4
+					const r = imageData.data[pixelIndex + 0]
+					const g = imageData.data[pixelIndex + 1]
+					const b = imageData.data[pixelIndex + 2]
+					const avg = Math.floor((r + g + b) / 3)
+					drawAscii(row, col, w, h, avg)
+				}
+			}
+		}
+
+		const drawAscii = (row, col, w, h, avg) => {
+			const len = density.length
+			const charIndex = Math.floor(scale(avg, 0, 255, len, 0))
+			ctxMain.font = `${h}px "c64"`
+			ctxMain.textAlign = 'left'
+			ctxMain.fillStyle = 'rgb(150, 145, 130)'
+			ctxMain.fillText(density.charAt(charIndex), row * w, col * h)
+		}
+
+		const scale = (number, inMin, inMax, outMin, outMax) => {
+			return ((number - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
+		}
+
+		const animateFrames = () => {
+			requestAnimationFrame(animateFrames)
+			now = Date.now()
+			delta = now - then
+
+			if (delta > interval) {
+				updateAnimation()
+				then = now - (delta % interval)
+			}
+		}
+
+		setCanvasSize()
+		window.addEventListener('resize', setCanvasSize)
+		then = Date.now()
+		updateAnimation()
+		animateFrames()
+	})
+</script>
+
+<style>
+	#canvas-main {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+		height: 100%;
+	}
+
+	#canvas-pixel {
+		display: none;
+	}
+
+	.control-container {
+		position: relative;
+		z-index: 2;
+	}
+
+	.control-container input[type='number'] {
+		background-color: rgba(0, 0, 0, 0);
+		color: var(--white);
+		border: 0px solid;
+	}
+
+	.control-container input[type='number']::-webkit-inner-spin-button,
+	.control-container input[type='number']::-webkit-outer-spin-button {
+		opacity: 1;
+	}
+
+	.control-container .text-background {
+		display: inline;
+	}
+</style>
