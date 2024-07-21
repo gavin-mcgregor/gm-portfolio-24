@@ -18,7 +18,7 @@
 					id="rings"
 					name="rings"
 					min="1"
-					max="15"
+					max="20"
 					value="8"
 					step="1"
 				/>
@@ -102,13 +102,17 @@
 			let grd,
 				ringScale = 0
 
+			// Save the initial gradient angle
+			const initialAngle = grdAngle
+
 			for (let x = 0; x < numOfRings; x++) {
-				createRing(x, ringScale)
+				// Use the saved angle, adjusted for each ring
+				createRing(x, ringScale, initialAngle)
 				ringScale += maxRadius / numOfRings
 			}
 
-			function createRing(x, ringScale) {
-				grd = ctxPixel.createConicGradient((grdAngle + grdAngleOffset) * x, cX, cY)
+			function createRing(x, ringScale, initialAngle) {
+				grd = ctxPixel.createConicGradient(initialAngle + (grdAngle + grdAngleOffset) * x, cX, cY)
 				grd.addColorStop(0.25, 'rgb(0,0,0)')
 				grd.addColorStop(1, 'rgb(125,125,125)')
 				ctxPixel.fillStyle = grd
