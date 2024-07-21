@@ -1,13 +1,59 @@
 ---
 // Images
 import { Image } from 'astro:assets'
-const images = await Astro.glob('/src/assets/gallery/*').then((files) => {
+const images = await Astro.glob('/src/assets/gallery/*.{jpg,png}').then((files) => {
 	return files.map((file) => file.default)
 })
 
-// Determine if the user is on a desktop or mobile (replace with actual logic)
-const isDesktop = true // Replace with actual condition
-const numberOfColumns = isDesktop ? 3 : 2
+// Add Videos
+const videos = [
+	{
+		position: 1,
+		url: 'https://vimeo.com/987618755',
+		id: '987618755',
+		width: 856,
+		height: 1080
+	},
+	{
+		position: 5,
+		url: 'https://vimeo.com/987638197',
+		id: '987638197',
+		width: 1080,
+		height: 1080
+	},
+	{
+		position: 7,
+		url: 'https://vimeo.com/987658015',
+		id: '987658015',
+		width: 856,
+		height: 1080
+	},
+	{
+		position: 12,
+		url: 'https://vimeo.com/987945568',
+		id: '987945568',
+		width: 1080,
+		height: 1645
+	}
+]
+
+// Merge images + videos
+let x
+for (x = 0; x < images.length + 1; x++) {
+	videos.forEach((video) => {
+		if (video.position === x + 1) {
+			images.splice(x, 0, {
+				url: video.url,
+				format: 'video',
+				id: video.id,
+				width: video.width,
+				height: video.height
+			})
+		}
+	})
+}
+
+const numberOfColumns = 3
 const imagesArray = await Promise.all(images)
 const imagesPerColumn = Math.ceil(imagesArray.length / numberOfColumns)
 let imageColumns = []
@@ -17,6 +63,8 @@ for (let x = 0; x < numberOfColumns; x++) {
 	imageColumns.push(imagesArray.slice(imageIndex, imageIndex + imagesPerColumn))
 	imageIndex += imagesPerColumn
 }
+
+console.log(images)
 ---
 
 <section>
@@ -24,34 +72,42 @@ for (let x = 0; x < numberOfColumns; x++) {
 		<div class="title-container row-bottom-x2">
 			<h2 class="text-white text-center">Gallery Section</h2>
 		</div>
-		<div class="row-top-x2 row-bottom-x2">
-			<div class="video-container">
-				<iframe
-					id="vimeo-player"
-					class="vimeo-player"
-					width="1920"
-					height="1080"
-					src=""
-					allow="autoplay; fullscreen"
-					allowfullscreen></iframe>
-			</div>
-		</div>
 		<div class="gallery-container">
 			{
-				imageColumns.map((column, index) => (
+				imageColumns.map((column) => (
 					<div class="gallery-column">
 						{column.map((img, i) => (
 							<div class="gallery-item">
-								<Image
-									src={img}
-									alt=""
-									widths={[640, 490, 980]}
-									sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
-									format="webp"
-									quality={80}
-									loading={i > 3 ? 'lazy' : 'eager'}
-									class="gallery-image"
-								/>
+								{img.format !== 'video' ? (
+									<Image
+										src={img}
+										alt=""
+										widths={[640, 490, 980]}
+										sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
+										format="webp"
+										quality={80}
+										loading={i > 3 ? 'lazy' : 'eager'}
+										class="gallery-image"
+									/>
+								) : (
+									<div
+										class="video-container"
+										style={`padding-bottom: calc(${img.height} / ${img.width} * 100%)`}
+									>
+										<iframe
+											id={`vimeo-player=${img.id}`}
+											class="vimeo-player"
+											width={`${img.width}`}
+											height={`${img.height}`}
+											src={`
+												https://player.vimeo.com/video/${img.id}?autoplay=1&muted=1&controls=0&loop=1&background=1
+												`}
+											allow="autoplay; fullscreen"
+											allowfullscreen
+										/>
+										<script />
+									</div>
+								)}
 							</div>
 						))}
 					</div>
@@ -107,38 +163,3 @@ for (let x = 0; x < numberOfColumns; x++) {
 		}
 	}
 </style>
-
-<script>
-	import Player from '@vimeo/player'
-
-	const videoArray = [
-		{
-			url: 'https://vimeo.com/987289518'
-		},
-		{
-			url: 'https://vimeo.com/987293628'
-		},
-		{
-			url: 'https://vimeo.com/987294711'
-		}
-	]
-
-	const videoId = videoArray[0].url.split('/').pop()
-
-	document.addEventListener('DOMContentLoaded', () => {
-		const vimeoPlayerElement = document.getElementById('vimeo-player') as HTMLIFrameElement
-
-		if (!vimeoPlayerElement) {
-			console.error('Vimeo player element not found.')
-			return
-		}
-
-		vimeoPlayerElement.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&controls=0&loop=1`
-
-		const player = new Player(vimeoPlayerElement)
-
-		player.on('play', function () {
-			console.log('Video is playing')
-		})
-	})
-</script>
