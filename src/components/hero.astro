@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets'
 import backgroundImage from '../assets/hero/background.png'
+import portraitImage from '../assets/hero/scan.jpg'
+import textureImage from '../assets/hero/auldgloom.jpg'
 import Canvas from '../components/canvas.astro'
 ---
 
@@ -21,7 +23,6 @@ import Canvas from '../components/canvas.astro'
 				format="webp"
 				quality={80}
 				loading="eager"
-				class="gallery-image"
 			/>
 		</div>
 
@@ -33,6 +34,34 @@ import Canvas from '../components/canvas.astro'
 				<span class="text-background text-grey">Custom font: Auld_Traditional</span>
 			</div>
 		</div>
+
+		<div class="texture-container">
+			<div class="">
+				<Image
+					src={textureImage}
+					alt=""
+					widths={[640, 490, 980]}
+					sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
+					format="webp"
+					quality={80}
+					loading="eager"
+				/>
+			</div>
+		</div>
+
+		<div class="portrait-container">
+			<div class="aspect-ratio">
+				<Image
+					src={portraitImage}
+					alt=""
+					widths={[640, 490, 980]}
+					sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
+					format="webp"
+					quality={80}
+					loading="eager"
+				/>
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -41,6 +70,7 @@ import Canvas from '../components/canvas.astro'
 		min-height: 100vh;
 		background-color: #222;
 		position: relative;
+		overflow: hidden;
 	}
 
 	.title-container {
@@ -63,6 +93,7 @@ import Canvas from '../components/canvas.astro'
 		right: 0;
 		width: calc(50% - 0.5rem);
 		height: 80%;
+		z-index: 2;
 		background-color: var(--grey);
 		display: flex;
 		justify-content: center;
@@ -83,11 +114,68 @@ import Canvas from '../components/canvas.astro'
 		margin-left: 2rem;
 	}
 
+	.texture-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 33.33%;
+		height: 100%;
+		background-color: #222;
+	}
+
+	.texture-container img {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 75%;
+		background-color: #222;
+		z-index: 2;
+	}
+
+	.portrait-container {
+		position: absolute;
+		width: 100%;
+		bottom: -5%;
+		left: 1rem;
+		z-index: 2;
+		transform: translateY(0%) rotate(10deg);
+		max-width: min(320px, 70vw);
+	}
+
+	.aspect-ratio {
+		width: 100%;
+		padding-bottom: calc(5 / 4 * 100%);
+		border-radius: 1rem;
+		overflow: hidden;
+	}
+
+	.portrait-container img {
+		object-fit: contain;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
 	@media (max-width: 640px) {
+		.texture-container {
+			width: 100%;
+			height: 50%;
+			top: unset;
+			bottom: 0;
+		}
+
+		.portrait-container {
+			bottom: 10%;
+			left: -10%;
+		}
+
 		.font-display-container {
 			position: absolute;
 			top: 0%;
-			right: 0;
+			right: -20%;
 			width: calc(75% - 0.5rem);
 			height: 80%;
 			background-color: var(--grey);
