@@ -1,15 +1,22 @@
 ---
-import Iframe from '../components/iframe.astro'
+import Video from '../components/video.astro'
 import { Image } from 'astro:assets'
 const images = await Astro.glob('/src/assets/gallery/*.{jpg,png}').then((files) =>
 	files.map((file) => file.default)
 )
 
+// const videos = [
+// 	{ position: 1, url: 'https://vimeo.com/987618755', id: '987618755', width: 856, height: 1080 },
+// 	{ position: 5, url: 'https://vimeo.com/987638197', id: '987638197', width: 1080, height: 1080 },
+// 	{ position: 7, url: 'https://vimeo.com/987658015', id: '987658015', width: 856, height: 1080 },
+// 	{ position: 12, url: 'https://vimeo.com/987945568', id: '987945568', width: 1080, height: 1645 }
+// ]
+
 const videos = [
-	{ position: 1, url: 'https://vimeo.com/987618755', id: '987618755', width: 856, height: 1080 },
-	{ position: 5, url: 'https://vimeo.com/987638197', id: '987638197', width: 1080, height: 1080 },
-	{ position: 7, url: 'https://vimeo.com/987658015', id: '987658015', width: 856, height: 1080 },
-	{ position: 12, url: 'https://vimeo.com/987945568', id: '987945568', width: 1080, height: 1645 }
+	{ position: 1, url: 'assets/videos/yippon.mp4', id: '987618755', width: 856, height: 1080 },
+	{ position: 5, url: 'assets/videos/howong.mp4', id: '987638197', width: 1080, height: 1080 },
+	{ position: 7, url: 'assets/videos/doh.mp4', id: '987658015', width: 856, height: 1080 },
+	{ position: 12, url: 'assets/videos/culann.mp4', id: '987945568', width: 1080, height: 1645 }
 ]
 
 let x
@@ -71,7 +78,7 @@ for (let x = 0; x < numberOfColumns; x++) {
 										class="video-container"
 										style={`padding-bottom: calc(${item.height} / ${item.width} * 100%)`}
 									>
-										<Iframe data={item} />
+										<Video data={item} />
 									</div>
 								)}
 							</div>
