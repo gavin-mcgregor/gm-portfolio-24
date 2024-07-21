@@ -1,43 +1,17 @@
 ---
-// Images
+import Iframe from '../components/iframe.astro'
 import { Image } from 'astro:assets'
-const images = await Astro.glob('/src/assets/gallery/*.{jpg,png}').then((files) => {
-	return files.map((file) => file.default)
-})
+const images = await Astro.glob('/src/assets/gallery/*.{jpg,png}').then((files) =>
+	files.map((file) => file.default)
+)
 
-// Add Videos
 const videos = [
-	{
-		position: 1,
-		url: 'https://vimeo.com/987618755',
-		id: '987618755',
-		width: 856,
-		height: 1080
-	},
-	{
-		position: 5,
-		url: 'https://vimeo.com/987638197',
-		id: '987638197',
-		width: 1080,
-		height: 1080
-	},
-	{
-		position: 7,
-		url: 'https://vimeo.com/987658015',
-		id: '987658015',
-		width: 856,
-		height: 1080
-	},
-	{
-		position: 12,
-		url: 'https://vimeo.com/987945568',
-		id: '987945568',
-		width: 1080,
-		height: 1645
-	}
+	{ position: 1, url: 'https://vimeo.com/987618755', id: '987618755', width: 856, height: 1080 },
+	{ position: 5, url: 'https://vimeo.com/987638197', id: '987638197', width: 1080, height: 1080 },
+	{ position: 7, url: 'https://vimeo.com/987658015', id: '987658015', width: 856, height: 1080 },
+	{ position: 12, url: 'https://vimeo.com/987945568', id: '987945568', width: 1080, height: 1645 }
 ]
 
-// Merge images + videos
 let x
 for (x = 0; x < images.length + 1; x++) {
 	videos.forEach((video) => {
@@ -67,18 +41,23 @@ for (let x = 0; x < numberOfColumns; x++) {
 
 <section>
 	<div class="page-width row-top-x2">
-		<div class="title-container text-line-reversed row-bottom-x2">
-			<h2 class="text-white text-center"><span class="text-background">Gallery Section</span></h2>
+		<div class="title-container row-bottom-x2">
+			<div class="text-line">
+				<h2 class="text-white text-center">
+					<span>03_ </span>
+					<span class="text-background">Gallery Section</span>
+				</h2>
+			</div>
 		</div>
 		<div class="gallery-container">
 			{
 				imageColumns.map((column) => (
 					<div class="gallery-column">
-						{column.map((img, i) => (
+						{column.map((item, i) => (
 							<div class="gallery-item">
-								{img.format !== 'video' ? (
+								{item.format !== 'video' ? (
 									<Image
-										src={img}
+										src={item}
 										alt=""
 										widths={[640, 490, 980]}
 										sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
@@ -90,19 +69,9 @@ for (let x = 0; x < numberOfColumns; x++) {
 								) : (
 									<div
 										class="video-container"
-										style={`padding-bottom: calc(${img.height} / ${img.width} * 100%)`}
+										style={`padding-bottom: calc(${item.height} / ${item.width} * 100%)`}
 									>
-										<iframe
-											id={`vimeo-player=${img.id}`}
-											class="vimeo-player"
-											width={`${img.width}`}
-											height={`${img.height}`}
-											src={`
-												https://player.vimeo.com/video/${img.id}?autoplay=1&muted=1&controls=0&loop=1&background=1
-												`}
-											allow="autoplay; fullscreen"
-										/>
-										<script />
+										<Iframe data={item} />
 									</div>
 								)}
 							</div>
@@ -142,16 +111,6 @@ for (let x = 0; x < numberOfColumns; x++) {
 		padding-bottom: calc(9 / 16 * 100%); /* Aspect 16:9 */
 		height: 0;
 		overflow: hidden;
-	}
-
-	iframe {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		border: none;
 	}
 
 	@media (max-width: 640px) {

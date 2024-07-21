@@ -10,6 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astro-community/astro-embed-vimeo": "^0.3.7",
     "@astrojs/netlify": "^5.4.0",
     "@vimeo/player": "^2.23.0",
     "astro": "^4.7.1",
