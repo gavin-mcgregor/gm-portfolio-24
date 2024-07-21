@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets'
+import portraitImage from '../assets/intro/portrait.jpg'
+---
+
+<section>
+	<div class="page-width row-top-x2">
+		<div class="title-container text-line-reversed row-bottom-x2 hidden">
+			<h2 class="text-white text-center"><span class="text-background">Intro Section</span></h2>
+		</div>
+		<div class="column-container">
+			<div class="column">
+				<div class="text-container text-white">
+					<div class="inline">01_</div>
+					<div class="inline text-line">
+						<span class="text-background">About Me </span>
+						<div class="copy-container row-top-x2 row-bottom-x2">
+							<div class="text-large row-bottom-x1">
+								I specialise in developing brand focused design and website experiences for
+								independent businesses.
+							</div>
+							<div>
+								<ul class="skill-list">
+									<li><span class="skill-pill">branding</span></li>
+									<li><span class="skill-pill">websites</span></li>
+									<li><span class="skill-pill">for print</span></li>
+									<li><span class="skill-pill">development</span></li>
+									<li><span class="skill-pill">illustration</span></li>
+									<li><span class="skill-pill">animation</span></li>
+									<li><span class="skill-pill">wordpress</span></li>
+									<li><span class="skill-pill">full stack</span></li>
+									<li><span class="skill-pill">motion</span></li>
+								</ul>
+							</div>
+						</div>
+						<div class="line-container">
+							<hr />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<Image
+					src={portraitImage}
+					alt=""
+					widths={[640, 490, 980]}
+					sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
+					format="webp"
+					quality={80}
+					loading="eager"
+					style={{ height: 'auto', aspectRatio: '1/1' }}
+				/>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.column-container {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
+	}
+
+	.column-container .column {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacer);
+		justify-content: center;
+	}
+
+	.column-container .column .text-container {
+		max-width: 59ch;
+	}
+
+	.column-container .column .line-container {
+		max-width: 240px;
+		width: 50%;
+	}
+
+	.skill-list {
+		display: flex;
+		flex-wrap: wrap;
+		column-gap: 0.25rem;
+		row-gap: 0.25rem;
+	}
+
+	.skill-list li {
+		list-style: none;
+		line-height: 2rem;
+	}
+
+	.skill-pill {
+		background-color: var(--white);
+		padding: 0.5rem 1rem;
+		color: var(--black);
+		border-radius: 1rem;
+		white-space: nowrap;
+		text-transform: capitalize;
+		font-size: 0.75rem;
+	}
+
+	@media (max-width: 980px) {
+		.column-container {
+			grid-template-columns: repeat(1, 1fr);
+		}
+
+		.column-container .column .text-container {
+			padding: 0;
+		}
+	}
+</style>

@@ -120,6 +120,7 @@ textarea {
 
 .text-black {
 	color: var(--black);
+	text-wrap: balance;
 }
 
 .text-center {
@@ -132,6 +133,7 @@ textarea {
 
 .text-large {
 	font-size: 1.5rem;
+	text-wrap: balance;
 }
 
 .text-underline {

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/layout.astro'
 import Hero from '../components/hero.astro'
+import Intro from '../components/intro.astro'
 import Gallery from '../components/gallery.astro'
 ---
 
@@ -10,6 +11,9 @@ import Gallery from '../components/gallery.astro'
 	title="Gavin McGregor"
 	description="designer and developer portfolio 2024"
 >
-	<Hero />
-	<Gallery />
+	<main class="row-bottom-x2">
+		<Hero />
+		<Intro />
+		<Gallery />
+	</main>
 </Layout>
