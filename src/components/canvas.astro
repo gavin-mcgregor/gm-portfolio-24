@@ -7,7 +7,7 @@
 	<canvas id="canvas-pixel"></canvas>
 	<div class="control-container text-white text-line-reversed">
 		<div class="row">
-			<span class="text-background"> Ascii Anim Specs</span>
+			<span class="text-background"> Edit Anim Specs:</span>
 		</div>
 		<div class="row">
 			<div class="text-background">
@@ -52,7 +52,6 @@
 		const pixelScale = 20
 		const canvasSpan = 0.9
 		const density = '#▚◥❌♥♦@8²Å╱←£✓*?!~:. '
-		// const fps = 42
 		const fps = 29
 		const interval = 1000 / fps
 		let then, now, delta
@@ -62,6 +61,7 @@
 		const canvasPixel = document.getElementById('canvas-pixel')
 
 		let speed = 0.01
+		let isAnimating = true
 
 		const setCanvasSize = () => {
 			const windowWidth = Math.floor(window.innerWidth * canvasSpan)
@@ -122,6 +122,8 @@
 		}
 
 		const updateAnimation = () => {
+			if (!isAnimating) return
+
 			ctxMain.fillStyle = 'rgba(0, 0, 0, 1)'
 			ctxMain.fillRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height)
 			drawGrad()
@@ -156,7 +158,9 @@
 		}
 
 		const animateFrames = () => {
-			requestAnimationFrame(animateFrames)
+			if (isAnimating) {
+				requestAnimationFrame(animateFrames)
+			}
 			now = Date.now()
 			delta = now - then
 
@@ -173,6 +177,36 @@
 
 		document.querySelector('input#speed').addEventListener('change', (e) => {
 			speed = parseFloat(e.target.value)
+		})
+
+		// Intersection Observer setup
+		const options = {
+			root: null,
+			threshold: 0,
+			rootMargin: '-20% 0px'
+		}
+
+		const canvasObserver = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (!entry.isIntersecting) {
+					isAnimating = false
+				} else {
+					isAnimating = true
+					animateFrames()
+				}
+			})
+		}, options)
+
+		const canvasEl = document.querySelectorAll('canvas')
+		canvasObserver.observe(canvasEl[0])
+
+		document.addEventListener('visibilitychange', () => {
+			if (document.hidden) {
+				isAnimating = false
+			} else {
+				isAnimating = true
+				animateFrames()
+			}
 		})
 	})
 </script>

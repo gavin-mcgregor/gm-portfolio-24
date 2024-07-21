@@ -61,26 +61,28 @@ for (let x = 0; x < numberOfColumns; x++) {
 				imageColumns.map((column) => (
 					<div class="gallery-column">
 						{column.map((item, i) => (
-							<div class="gallery-item">
-								{item.format !== 'video' ? (
-									<Image
-										src={item}
-										alt=""
-										widths={[640, 490, 980]}
-										sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
-										format="webp"
-										quality={80}
-										loading={i > 3 ? 'lazy' : 'eager'}
-										class="gallery-image"
-									/>
-								) : (
-									<div
-										class="video-container"
-										style={`padding-bottom: calc(${item.height} / ${item.width} * 100%)`}
-									>
-										<Video data={item} />
-									</div>
-								)}
+							<div class="gallery-item" data-lazy>
+								<div data-child-delay>
+									{item.format !== 'video' ? (
+										<Image
+											src={item}
+											alt=""
+											widths={[640, 490, 980]}
+											sizes={'(max-width: 640px) 640px, (max-width: 980px) 490px, 980px'}
+											format="webp"
+											quality={80}
+											loading={i > 3 ? 'lazy' : 'eager'}
+											class="gallery-image"
+										/>
+									) : (
+										<div
+											class="video-container"
+											style={`padding-bottom: calc(${item.height} / ${item.width} * 100%)`}
+										>
+											<Video data={item} />
+										</div>
+									)}
+								</div>
 							</div>
 						))}
 					</div>

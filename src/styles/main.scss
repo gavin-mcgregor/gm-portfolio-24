@@ -352,13 +352,12 @@ Transitions
 
 /* Lazy Fade */
 
-[data-lazy-fade='true'] {
+[data-lazy] [data-child-delay] {
 	opacity: 0.01;
 	transition: opacity 0.5s ease-out;
-	transition-delay: 0.3s;
 }
 
-[data-lazy-fade='true'].onScreen {
+[data-lazy].trans-in [data-child-delay] {
 	opacity: 1;
 }
 
