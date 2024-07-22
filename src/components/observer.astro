@@ -1,0 +1,38 @@
+---
+
+---
+
+<script is:inline>
+	document.addEventListener('DOMContentLoaded', () => {
+		const options = {
+			root: null,
+			threshold: 0,
+			rootMargin: '-20% 0px'
+		}
+		const lazyObserver = new IntersectionObserver(function (entries, lazyObserver) {
+			entries.forEach((entry) => {
+				if (!entry.isIntersecting) {
+					return
+				}
+				doLazyAni(entry.target)
+				lazyObserver.unobserve(entry.target)
+			})
+		}, options)
+
+		const lazyArray = document.querySelectorAll('[data-lazy]')
+		lazyArray.forEach((el) => {
+			lazyObserver.observe(el)
+
+			const delayArray = el.querySelectorAll('[data-child-delay]')
+			let offset = 0
+			delayArray.forEach((child) => {
+				child.style.transitionDelay = `${offset}s`
+				offset += 0.1
+			})
+		})
+
+		function doLazyAni(el) {
+			el.classList.add('trans-in')
+		}
+	})
+</script>

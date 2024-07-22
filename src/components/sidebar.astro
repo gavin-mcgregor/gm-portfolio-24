@@ -1,0 +1,97 @@
+---
+
+---
+
+<aside id="infoPanel">
+	<div class="info-container">
+		<div class="content-container text-white">
+			<div class="title-container">
+				<h2>Additional Information</h2>
+			</div>
+			<div class="text-container">
+				<p>Built w/ Astro.js & Netlify</p>
+				<p>
+					The project files for this website are available on github. The canvas element is being
+					drawn with vanillia javascript in the browser, you can change the speed and number of
+					rings paramaters to watch the animation change in real time.
+				</p>
+				<p>
+					<a
+						class="text-underline"
+						href="https://github.com/gavin-mcgregor/gm-portfolio-24"
+						target="_blank"
+					>
+						View files on Github
+					</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</aside>
+
+<script is:inline>
+	function handleToggle() {
+		const button = document.querySelector('button')
+		button.addEventListener('click', () => {
+			const aside = document.querySelector('#infoPanel')
+			aside.classList.toggle('visible')
+			const body = document.querySelector('body')
+			body.classList.toggle('more-info-active')
+
+			if (aside.classList.contains('trans')) {
+				setTimeout(() => {
+					aside.classList.remove('trans')
+				}, 500)
+			} else {
+				aside.classList.add('trans')
+			}
+		})
+	}
+	document.addEventListener('DOMContentLoaded', handleToggle)
+</script>
+
+<style>
+	#infoPanel {
+		position: absolute;
+		top: 0;
+		right: -100vw;
+		width: 0;
+		height: 120vh;
+		background-color: #333;
+		transition: right 0.3s ease-in-out;
+		z-index: 8;
+		overflow: hidden;
+	}
+
+	#infoPanel.trans {
+		width: 33vw;
+	}
+
+	#infoPanel.visible {
+		right: 0;
+	}
+
+	.info-container {
+		height: 100vh;
+		width: calc(95% - 2rem);
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		padding: 2rem;
+	}
+
+	.content-container {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		margin-bottom: 50%;
+	}
+
+	.text-container {
+		max-width: 55ch;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+</style>

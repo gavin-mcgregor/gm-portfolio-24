@@ -21,7 +21,7 @@
 			</div>
 			<!-- /column -->
 			<div class="column-single">
-				<button class="info-button"><span>i</span></button>
+				<button id="info-button"><span>i</span></button>
 			</div>
 			<!-- /column -->
 		</div>
@@ -46,7 +46,7 @@
 		justify-content: space-between;
 	}
 
-	header .info-button {
+	header #info-button {
 		background-color: var(--white);
 		height: 30px;
 		width: 30px;
@@ -55,7 +55,7 @@
 		transition: transform 0.3s ease-out;
 	}
 
-	header .info-button span {
+	header #info-button span {
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -63,7 +63,7 @@
 		line-height: 1em;
 	}
 
-	header .info-button:hover {
+	header #info-button:hover {
 		transform: scale(1.2);
 	}
 </style>

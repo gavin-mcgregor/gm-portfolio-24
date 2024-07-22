@@ -4,14 +4,16 @@ import Hero from '../components/hero.astro'
 import Intro from '../components/intro.astro'
 import Experience from '../components/experience.astro'
 import Gallery from '../components/gallery.astro'
+import Sidebar from '../components/sidebar.astro'
 ---
 
 <Layout
 	page="home"
 	classArray={['page-container']}
 	title="Gavin McGregor | Designer and developer portfolio 2024"
-	description="A small portfolio with highlights of some design visuals and a rundown down of past projects."
+	description="A small portfolio with highlights of some design visuals and a rundown down of past projects. Last edited: July 2024"
 >
+	<Sidebar />
 	<main class="row-bottom-x2">
 		<Hero />
 		<Intro />

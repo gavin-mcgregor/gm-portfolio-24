@@ -161,6 +161,15 @@ img {
 /* =================
 Structure
 ================= */
+body {
+  position: relative;
+}
+
+body.more-info-active {
+  height: 100vh;
+  overflow: hidden;
+}
+
 main {
   overflow: hidden;
   min-height: 100vh;
