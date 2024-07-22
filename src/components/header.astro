@@ -3,7 +3,7 @@
 ---
 
 <header>
-	<div class="page-width relative row-top-x2 row-bottom-x2">
+	<div class="header-inner page-width relative">
 		<div class="column-container">
 			<!-- column -->
 			<div class="column-single">
@@ -37,6 +37,10 @@
 		z-index: 9;
 	}
 
+	.header-inner {
+		padding: 2rem 0;
+	}
+
 	header .fixed {
 		position: fixed;
 	}
@@ -65,5 +69,11 @@
 
 	header #info-button:hover {
 		transform: scale(1.2);
+	}
+
+	@media (max-width: 640px) {
+		.header-inner {
+			padding: 1rem 0;
+		}
 	}
 </style>

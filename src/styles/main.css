@@ -222,22 +222,22 @@ main {
     width: calc(100% - 2rem);
   }
   .row-top-x1 {
-    padding-top: 0.5rem;
-  }
-  .row-top-x2 {
-    padding-top: 1rem;
-  }
-  .row-top-x4 {
     padding-top: 2rem;
   }
+  .row-top-x2 {
+    padding-top: 4rem;
+  }
+  .row-top-x4 {
+    padding-top: 8rem;
+  }
   .row-bottom-x1 {
-    padding-bottom: 0.5rem;
+    padding-bottom: 2rem;
   }
   .row-bottom-x2 {
-    padding-bottom: 1rem;
+    padding-bottom: 4rem;
   }
   .row-bottom-x4 {
-    padding-bottom: 2rem;
+    padding-bottom: 8rem;
   }
 }
 /* =================
